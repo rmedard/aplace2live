@@ -1,6 +1,7 @@
 package be.aplacetolive.entity;
 
 import be.aplacetolive.entity.types.TypeParticipant;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -40,6 +41,7 @@ public class Participant {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "participants")
     private Set<Activite> activites;
 

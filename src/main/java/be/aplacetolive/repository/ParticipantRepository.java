@@ -1,6 +1,7 @@
 package be.aplacetolive.repository;
 
 import be.aplacetolive.entity.Participant;
+import be.aplacetolive.entity.types.TypeParticipant;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
  */
 public interface ParticipantRepository extends CrudRepository<Participant, Long> {
     Participant findParticipantBySlug(String slug);
+    List<Participant> findParticipantsByType(TypeParticipant type);
 }

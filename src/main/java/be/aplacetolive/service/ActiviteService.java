@@ -1,6 +1,7 @@
 package be.aplacetolive.service;
 
 import be.aplacetolive.entity.Activite;
+import be.aplacetolive.entity.Participant;
 import be.aplacetolive.entity.types.TypeActivite;
 
 import java.util.List;
@@ -13,7 +14,8 @@ public interface ActiviteService {
     Activite getActiviteById(long id);
     Activite getActiviteBySlug(String slug);
     List<Activite> getActivitesByType(TypeActivite type);
-    boolean addActivite(Activite activite);
-    void updateActivite(Activite activite);
+    boolean createActivite(Activite activite);
+    boolean updateActivite(Activite activite);
     void deleteActivite(long id);
+    boolean addParticipant(Activite activite, Participant participant);
 }

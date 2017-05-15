@@ -1,6 +1,7 @@
 package be.aplacetolive.contoller;
 
 import be.aplacetolive.entity.Activite;
+import be.aplacetolive.entity.Participant;
 import be.aplacetolive.entity.types.TypeActivite;
 import be.aplacetolive.service.ActiviteService;
 import be.aplacetolive.utils.SlugUtil;
@@ -43,10 +44,10 @@ public class ActiviteCtrl {
     }
 
     @PostMapping(value = "add")
-    public ResponseEntity<Void> addArticle(@RequestBody Activite activite, UriComponentsBuilder builder){
+    public ResponseEntity<Void> createActivite(@RequestBody Activite activite, UriComponentsBuilder builder){
         activite.setSlug(SlugUtil.slugify(activite.getNom(), this.activiteService, SlugUtil.ACTIVITE));
 
-        boolean flag = activiteService.addActivite(activite);
+        boolean flag = activiteService.createActivite(activite);
         if (flag == false) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -55,5 +56,26 @@ public class ActiviteCtrl {
         headers.setLocation(builder.path("/{id}").buildAndExpand(activite.getId()).toUri());
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "edit")
+    public ResponseEntity<Void> updateActivite(@RequestBody Activite activite){
+        boolean updated = activiteService.updateActivite(activite);
+        return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping(value = "{slug}")
+    public  ResponseEntity<Void> addParticipant(@RequestBody Participant participant, @PathVariable("slug") String slug){
+        if (participant == null || participant.getId() == 0l){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            Activite activite = activiteService.getActiviteBySlug(slug);
+            if (activite == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                activiteService.addParticipant(activite, participant);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
     }
 }

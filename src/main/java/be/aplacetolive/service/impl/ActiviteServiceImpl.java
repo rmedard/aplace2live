@@ -1,6 +1,7 @@
 package be.aplacetolive.service.impl;
 
 import be.aplacetolive.entity.Activite;
+import be.aplacetolive.entity.Participant;
 import be.aplacetolive.entity.types.TypeActivite;
 import be.aplacetolive.repository.ActiviteRepository;
 import be.aplacetolive.service.ActiviteService;
@@ -45,18 +46,44 @@ public class ActiviteServiceImpl implements ActiviteService {
     }
 
     @Override
-    public boolean addActivite(Activite activite) {
+    public boolean createActivite(Activite activite) {
         Activite newActivite = activiteRepo.save(activite);
         return newActivite == null ? false : true;
     }
 
     @Override
-    public void updateActivite(Activite activite) {
-
+    public boolean updateActivite(Activite activite) {
+        if (activite == null || activite.getId() == 0L){
+            return false;
+        } else {
+            Activite act = activiteRepo.findActiviteById(activite.getId());
+            if (act == null){
+                return false;
+            } else {
+                act.setDate(activite.getDate());
+                act.setDescription(activite.getDescription());
+                act.setLieu(activite.getLieu());
+                act.setNom(activite.getNom());
+                act.setType(activite.getType());
+                activiteRepo.save(act);
+                return true;
+            }
+        }
     }
 
     @Override
     public void deleteActivite(long id) {
 
+    }
+
+    @Override
+    public boolean addParticipant(Activite activite, Participant participant) {
+        if (participant == null || participant.getId() == 0l){
+            return false;
+        } else {
+            activite.getParticipants().add(participant);
+            activiteRepo.save(activite);
+            return true;
+        }
     }
 }
