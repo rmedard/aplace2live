@@ -32,6 +32,7 @@ public class Activite implements Serializable {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Column(name = "date", nullable = false)
     private Date date;
 

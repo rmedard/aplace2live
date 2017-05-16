@@ -17,5 +17,5 @@ public interface ActiviteService {
     boolean createActivite(Activite activite);
     boolean updateActivite(Activite activite);
     void deleteActivite(long id);
-    boolean addParticipant(Activite activite, Participant participant);
+    boolean addParticipant(String activiteSlug, long participantId);
 }

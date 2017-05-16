@@ -64,18 +64,9 @@ public class ActiviteCtrl {
         return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping(value = "{slug}")
-    public  ResponseEntity<Void> addParticipant(@RequestBody Participant participant, @PathVariable("slug") String slug){
-        if (participant == null || participant.getId() == 0l){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-            Activite activite = activiteService.getActiviteBySlug(slug);
-            if (activite == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            } else {
-                activiteService.addParticipant(activite, participant);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-        }
+    @PostMapping(value = "{slug}")
+    public  ResponseEntity<Void> addParticipant(@PathVariable("slug") String slug, @RequestParam(value = "participant") long participantId){
+        boolean participantAdded = activiteService.addParticipant(slug, participantId);
+        return participantAdded ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

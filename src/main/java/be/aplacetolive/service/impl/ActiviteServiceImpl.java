@@ -4,6 +4,7 @@ import be.aplacetolive.entity.Activite;
 import be.aplacetolive.entity.Participant;
 import be.aplacetolive.entity.types.TypeActivite;
 import be.aplacetolive.repository.ActiviteRepository;
+import be.aplacetolive.repository.ParticipantRepository;
 import be.aplacetolive.service.ActiviteService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class ActiviteServiceImpl implements ActiviteService {
 
     @Autowired
     private ActiviteRepository activiteRepo;
+
+    @Autowired
+    private ParticipantRepository participantRepo;
 
     @Override
     public List<Activite> getAllActivites() {
@@ -77,13 +81,19 @@ public class ActiviteServiceImpl implements ActiviteService {
     }
 
     @Override
-    public boolean addParticipant(Activite activite, Participant participant) {
-        if (participant == null || participant.getId() == 0l){
+    public boolean addParticipant(String activiteSlug, long participantId) {
+        Activite activite = activiteRepo.findActiviteBySlug(activiteSlug);
+        if (activite == null){
             return false;
         } else {
-            activite.getParticipants().add(participant);
-            activiteRepo.save(activite);
-            return true;
+            Participant participant = participantRepo.findOne(participantId);
+            if (participant == null){
+                return false;
+            } else {
+                activite.getParticipants().add(participant);
+                activiteRepo.save(activite);
+                return true;
+            }
         }
     }
 }
