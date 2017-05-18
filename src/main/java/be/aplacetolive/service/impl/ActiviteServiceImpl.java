@@ -77,7 +77,7 @@ public class ActiviteServiceImpl implements ActiviteService {
 
     @Override
     public void deleteActivite(long id) {
-        //Not necessary
+
     }
 
     @Override
