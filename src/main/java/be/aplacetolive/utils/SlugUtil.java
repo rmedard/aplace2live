@@ -4,8 +4,6 @@ import be.aplacetolive.service.ActiviteService;
 import be.aplacetolive.service.ParticipantService;
 import com.github.slugify.Slugify;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by Medard on 14/05/2017.
