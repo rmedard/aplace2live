@@ -57,7 +57,6 @@ public class ActiviteCtrl {
         if (flag == false) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/{id}").buildAndExpand(activite.getId()).toUri());
 
