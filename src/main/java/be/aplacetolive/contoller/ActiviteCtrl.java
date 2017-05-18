@@ -43,6 +43,12 @@ public class ActiviteCtrl {
         return new ResponseEntity<>(activites, HttpStatus.OK);
     }
 
+    @GetMapping(value = "{slug}")
+    public ResponseEntity<Activite> getActiviteBySlug(@PathVariable(value = "slug") String slug){
+        Activite activite = activiteService.getActiviteBySlug(slug);
+        return activite == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(activite, HttpStatus.OK);
+    }
+
     @PostMapping(value = "add")
     public ResponseEntity<Void> createActivite(@RequestBody Activite activite, UriComponentsBuilder builder){
         activite.setSlug(SlugUtil.slugify(activite.getNom(), this.activiteService, SlugUtil.ACTIVITE));
@@ -65,7 +71,7 @@ public class ActiviteCtrl {
     }
 
     @PostMapping(value = "{slug}")
-    public  ResponseEntity<Void> addParticipant(@PathVariable("slug") String slug, @RequestParam(value = "participant") long participantId){
+    public  ResponseEntity<Void> addParticipant(@PathVariable(value = "slug") String slug, @RequestParam(value = "participant") long participantId){
         boolean participantAdded = activiteService.addParticipant(slug, participantId);
         return participantAdded ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
