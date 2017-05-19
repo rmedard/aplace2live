@@ -1,5 +1,6 @@
 package be.aplacetolive.contoller;
 
+import be.aplacetolive.entity.Activite;
 import be.aplacetolive.entity.Participant;
 import be.aplacetolive.entity.types.TypeParticipant;
 import be.aplacetolive.service.ParticipantService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,5 +63,11 @@ public class ParticipantCtrl {
     public ResponseEntity<Participant> getParticipantBySlug(@PathVariable(value = "slug") String slug){
         Participant participant = participantService.getParticipantBySlug(slug);
         return participant == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(participant, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "{slug}/activites")
+    public ResponseEntity<List<Activite>> getParticipationsByParticipant(@PathVariable(value = "slug") String slug){
+        Participant participant = participantService.getParticipantBySlug(slug);
+        return participant == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(new ArrayList<>(participant.getActivites()), HttpStatus.OK);
     }
 }
