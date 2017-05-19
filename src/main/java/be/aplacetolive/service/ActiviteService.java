@@ -1,7 +1,6 @@
 package be.aplacetolive.service;
 
 import be.aplacetolive.entity.Activite;
-import be.aplacetolive.entity.Participant;
 import be.aplacetolive.entity.types.TypeActivite;
 
 import java.util.List;

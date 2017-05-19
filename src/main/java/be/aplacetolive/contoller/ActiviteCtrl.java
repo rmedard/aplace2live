@@ -1,7 +1,6 @@
 package be.aplacetolive.contoller;
 
 import be.aplacetolive.entity.Activite;
-import be.aplacetolive.entity.Participant;
 import be.aplacetolive.entity.types.TypeActivite;
 import be.aplacetolive.service.ActiviteService;
 import be.aplacetolive.utils.SlugUtil;

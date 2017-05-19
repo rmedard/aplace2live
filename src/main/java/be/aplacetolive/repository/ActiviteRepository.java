@@ -1,7 +1,6 @@
 package be.aplacetolive.repository;
 
 import be.aplacetolive.entity.Activite;
-import be.aplacetolive.entity.Participant;
 import be.aplacetolive.entity.types.TypeActivite;
 import org.springframework.data.repository.CrudRepository;
 
