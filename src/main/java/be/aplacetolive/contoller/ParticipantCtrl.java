@@ -56,4 +56,10 @@ public class ParticipantCtrl {
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+
+    @GetMapping(value = "{slug}")
+    public ResponseEntity<Participant> getParticipantBySlug(@PathVariable(value = "slug") String slug){
+        Participant participant = participantService.getParticipantBySlug(slug);
+        return participant == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(participant, HttpStatus.OK);
+    }
 }
