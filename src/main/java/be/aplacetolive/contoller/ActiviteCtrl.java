@@ -73,4 +73,9 @@ public class ActiviteCtrl {
         boolean participantAdded = activiteService.addParticipant(slug, participantId);
         return participantAdded ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping(value = "types")
+    public ResponseEntity<List<String>> getTypesActivite(){
+        return new ResponseEntity<>(activiteService.getTypesActivite(), HttpStatus.OK);
+    }
 }

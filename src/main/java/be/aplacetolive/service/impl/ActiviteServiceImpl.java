@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -94,5 +95,14 @@ public class ActiviteServiceImpl implements ActiviteService {
                 return true;
             }
         }
+    }
+
+    @Override
+    public List<String> getTypesActivite() {
+        List<String> types = new ArrayList<>();
+        for (TypeActivite type : TypeActivite.values()){
+            types.add(type.name());
+        }
+        return types;
     }
 }

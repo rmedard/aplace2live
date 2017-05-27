@@ -13,4 +13,5 @@ public interface ParticipantService {
     List<Participant> getAllParticipants();
     List<Participant> getParticipantsByType(TypeParticipant type);
     boolean createParticipant(Participant participant);
+    List<String> getTypesParticipant();
 }

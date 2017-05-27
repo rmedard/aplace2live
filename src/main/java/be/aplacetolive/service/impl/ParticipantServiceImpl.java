@@ -44,4 +44,13 @@ public class ParticipantServiceImpl implements ParticipantService {
         Participant newParticipant = participantRepository.save(participant);
         return newParticipant == null ? false : true;
     }
+
+    @Override
+    public List<String> getTypesParticipant() {
+        List<String> types = new ArrayList<>();
+        for (TypeParticipant type: TypeParticipant.values()){
+            types.add(type.name());
+        }
+        return types;
+    }
 }

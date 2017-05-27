@@ -70,4 +70,9 @@ public class ParticipantCtrl {
         Participant participant = participantService.getParticipantBySlug(slug);
         return participant == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(new ArrayList<>(participant.getActivites()), HttpStatus.OK);
     }
+
+    @GetMapping(value = "types")
+    public ResponseEntity<List<String>> getTypesParticipant(){
+        return new ResponseEntity<>(participantService.getTypesParticipant(), HttpStatus.OK);
+    }
 }
