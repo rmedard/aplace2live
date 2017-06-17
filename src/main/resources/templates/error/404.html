@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="centered-page">
+        <h1>404 - Oops! Page introuvable</h1>
+        <p class="lead">La page que vous voulez visiter n'existe pas.</p>
+    </div>
+
+</div><!-- /.container -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

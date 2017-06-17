@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Medard on 12/05/2017.
  */
 @Controller
-@RequestMapping("api/participants")
+@RequestMapping("participants")
 public class ParticipantCtrl {
 
     @Autowired

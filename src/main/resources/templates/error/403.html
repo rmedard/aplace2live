@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="centered-page">
+        <h1>403 - Oops! Accès refusé</h1>
+        <p class="lead">Vous n'êtes autirisé à visiter cette page.</p>
+    </div>
+
+</div><!-- /.container -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

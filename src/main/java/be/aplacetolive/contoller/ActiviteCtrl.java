@@ -10,23 +10,25 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Medard on 12/05/2017.
  */
 @Controller
-@RequestMapping("api/activites")
+@RequestMapping(value = "activites")
 public class ActiviteCtrl {
 
     @Autowired
     private ActiviteService activiteService;
 
     @GetMapping
-    public ResponseEntity<List<Activite>> getAllActivites(@RequestParam(value = "type", required = false) String type){
+    public String getAllActivites(@RequestParam(value = "type", required = false) String type, Model model){
         List<Activite> activites;
         if (!StringUtils.isEmpty(type)){
             String cleanType = type.trim().toUpperCase();
@@ -34,12 +36,13 @@ public class ActiviteCtrl {
                 TypeActivite typeActivite = TypeActivite.valueOf(cleanType);
                 activites = activiteService.getActivitesByType(typeActivite);
             } catch (IllegalArgumentException ex){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                activites = new ArrayList<>();
             }
         } else {
             activites = activiteService.getAllActivites();
         }
-        return new ResponseEntity<>(activites, HttpStatus.OK);
+        model.addAttribute("activites", activites);
+        return "activites/index";
     }
 
     @GetMapping(value = "{slug}")
