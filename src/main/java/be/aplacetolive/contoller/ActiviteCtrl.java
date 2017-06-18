@@ -53,8 +53,6 @@ public class ActiviteCtrl {
 
     @PostMapping(value = "add")
     public ResponseEntity<Void> createActivite(@RequestBody Activite activite, UriComponentsBuilder builder){
-        activite.setSlug(SlugUtil.slugify(activite.getNom(), this.activiteService, SlugUtil.ACTIVITE));
-
         boolean flag = activiteService.createActivite(activite);
         if (flag == false) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

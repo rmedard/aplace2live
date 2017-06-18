@@ -1,8 +1,9 @@
 package be.aplacetolive.contoller;
 
+import be.aplacetolive.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Created by medard on 16.06.17.
@@ -10,24 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PublicPagesCtrl {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/")
     public String home(){
         return "index";
     }
 
-    @GetMapping("home")
+    @GetMapping("/home")
     public String home1(){
         return "index";
-    }
-
-    @GetMapping("login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("register")
-    public String register() {
-        return "register";
     }
 
     @GetMapping("about")

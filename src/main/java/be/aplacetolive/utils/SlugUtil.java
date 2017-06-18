@@ -1,7 +1,7 @@
 package be.aplacetolive.utils;
 
 import be.aplacetolive.service.ActiviteService;
-import be.aplacetolive.service.ParticipantService;
+import be.aplacetolive.service.UserService;
 import com.github.slugify.Slugify;
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,7 +33,7 @@ public class SlugUtil {
                     continue;
                 } break;
             } else if (typeModel.equals(PARTICIPANT)){
-                if (((ParticipantService)service).getParticipantBySlug(slug) != null){
+                if (((UserService)service).getUserBySlug(slug) != null){
                     slug = baseSlug.concat("-" + extension);
                     extension++;
                     continue;

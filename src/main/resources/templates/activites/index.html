@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <div th:replace="fragments/header :: header-css"/>
 </head>
@@ -13,9 +14,11 @@
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th>Nom</th>
-                <th>Descrition</th>
-                <th>Date</th>
+                <th th:text="Nom"></th>
+                <th th:text="Descrition"></th>
+                <th th:text="Date"></th>
+                <th th:text="Type"></th>
+                <th sec:authorize="hasAuthority('ADMIN')" th:text="Opération"></th>
             </tr>
             </thead>
             <tbody>
@@ -24,6 +27,8 @@
                 <td th:text="${activite.nom}"></td>
                 <td th:text="${activite.description}"></td>
                 <td th:text="${activite.date}"></td>
+                <td th:text="${activite.type}"></td>
+                <td sec:authorize="hasAuthority('ADMIN')" th:text="Modifier"></td>
             </tr>
             </tbody>
         </table>

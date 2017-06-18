@@ -42,9 +42,9 @@ public class Activite implements Serializable {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "participations")
-    private Set<Participant> participants;
+    private Set<User> users;
 
     public Long getId() {
         return id;
@@ -103,7 +103,11 @@ public class Activite implements Serializable {
         this.slug = slug;
     }
 
-    public Set<Participant> getParticipants() {
-        return participants;
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

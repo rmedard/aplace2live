@@ -1,17 +1,17 @@
 package be.aplacetolive.service.impl;
 
 import be.aplacetolive.entity.Activite;
-import be.aplacetolive.entity.Participant;
+import be.aplacetolive.entity.User;
 import be.aplacetolive.entity.types.TypeActivite;
 import be.aplacetolive.repository.ActiviteRepository;
-import be.aplacetolive.repository.ParticipantRepository;
+import be.aplacetolive.repository.UserRepository;
 import be.aplacetolive.service.ActiviteService;
+import be.aplacetolive.utils.SlugUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ public class ActiviteServiceImpl implements ActiviteService {
     private ActiviteRepository activiteRepo;
 
     @Autowired
-    private ParticipantRepository participantRepo;
+    private UserRepository userRepo;
 
     @Override
     public List<Activite> getAllActivites() {
@@ -52,6 +52,7 @@ public class ActiviteServiceImpl implements ActiviteService {
 
     @Override
     public boolean createActivite(Activite activite) {
+        activite.setSlug(SlugUtil.slugify(activite.getNom(), this, SlugUtil.ACTIVITE));
         Activite newActivite = activiteRepo.save(activite);
         return newActivite == null ? false : true;
     }
@@ -81,16 +82,16 @@ public class ActiviteServiceImpl implements ActiviteService {
     }
 
     @Override
-    public boolean addParticipant(String activiteSlug, long participantId) {
+    public boolean addParticipant(String activiteSlug, long userId) {
         Activite activite = activiteRepo.findActiviteBySlug(activiteSlug);
         if (activite == null){
             return false;
         } else {
-            Participant participant = participantRepo.findOne(participantId);
+            User participant = userRepo.findOne(userId);
             if (participant == null){
                 return false;
             } else {
-                activite.getParticipants().add(participant);
+                activite.getUsers().add(participant);
                 activiteRepo.save(activite);
                 return true;
             }

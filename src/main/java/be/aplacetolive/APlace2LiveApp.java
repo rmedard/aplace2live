@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
-public class RestApiApp {
+public class APlace2LiveApp {
     public static void main(String[] args){
-        SpringApplication.run(RestApiApp.class, args);
+        SpringApplication.run(APlace2LiveApp.class, args);
     }
 }

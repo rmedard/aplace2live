@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>A Place To Live </title>
+    <title>Formulaire d'enregistrement</title>
     <div th:replace="fragments/header :: header-css"/>
     <!-- Custom styles for this page -->
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
@@ -12,29 +12,36 @@
 
 <div class="container">
 
-    <form class="form-signin" th:action="@{/register}" method="post">
+    <!--/*@thymesVar id="user" type="be.aplacetolive.entity.User"*/-->
+    <form class="form-signin" th:action="@{/register}" method="post" th:object="${user}" role="form">
         <h2 class="form-signin-heading">Inscrivez-vous</h2>
-        <div th:if="${param.error}">
-            <div class="alert alert-danger">
-                Nom d'utilisateur ou mot de passe incorrect
-            </div>
-        </div>
-        <div th:if="${param.logout}">
-            <div class="alert alert-info">
-                Vous-êtes déconnectés!!
-            </div>
+        <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+
+        <div class="alert alert-success" role="alert" th:if="${successMessage}">
+            <strong>Parfait!</strong> <span th:utext="${successMessage}"></span>
         </div>
 
         <label for="inputNom" class="sr-only">Nom</label>
-        <input type="text" id="inputNom" class="form-control" placeholder="Nom" required = "true" autofocus = "true"/>
+        <input type="text" th:field="*{nom}" id="inputNom" class="form-control" placeholder="Nom" required = "true" autofocus = "true"/>
+
         <label for="inputPrenom" class="sr-only">Prénom</label>
-        <input type="text" id="inputPrenom" class="form-control" placeholder="Prénom" required = "false"/>
-        <label for="inputPhone" class="sr-only">Téléphone</label>
-        <input type="text" id="inputPhone" class="form-control" placeholder="Téléphone" required = "false"/>
+        <input type="text" th:field="*{prenom}" id="inputPrenom" class="form-control" placeholder="Prénom" required = "false"/>
+
+        <label for="inputTypeParticipant" class="sr-only">Type</label>
+        <!--/*@thymesVar id="typesParticipants" type="java.util.List<java.lang.String>"*/-->
+        <select class="form-control" id="inputTypeParticipant"  th:field="*{type}">
+            <option th:each="typeParticipant: ${typesParticipants}"
+                    th:value="${typeParticipant}"
+                    th:text="${#strings.capitalize(typeParticipant.toLowerCase())}">
+            </option>
+        </select>
+
         <label for="inputEmail" class="sr-only">Adresse email</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Adresse email" required = "true"/>
+        <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Adresse email" required = "true"/>
+
         <label for="inputPassword" class="sr-only">Mot de passe</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required = "true"/>
+        <input type="password" th:field="*{password}" id="inputPassword" class="form-control" placeholder="Mot de passe" required = "true"/>
+
         <!--<div class="checkbox">-->
         <!--<label>-->
         <!--<input type="checkbox" value="remember-me"> Remember me-->
@@ -42,7 +49,6 @@
         <!--</div>-->
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sauvegarder</button>
     </form>
-
 </div>
 
 <div th:replace="fragments/footer :: footer"/>
