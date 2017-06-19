@@ -114,15 +114,4 @@ public class ParticipantCtrl {
         }
         return modelAndView;
     }
-
-    @GetMapping(value = "participants/{slug}/activites")
-    public ResponseEntity<List<Activite>> getParticipationsByParticipant(@PathVariable(value = "slug") String slug){
-        User user = userService.findUserBySlug(slug);
-        return user == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(new ArrayList<>(user.getActivites()), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "types")
-    public ResponseEntity<List<String>> getTypesParticipant(){
-        return new ResponseEntity<>(userService.getTypesParticipant(), HttpStatus.OK);
-    }
 }

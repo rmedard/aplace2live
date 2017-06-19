@@ -3,7 +3,6 @@ package be.aplacetolive.contoller;
 import be.aplacetolive.entity.Activite;
 import be.aplacetolive.entity.types.TypeActivite;
 import be.aplacetolive.service.ActiviteService;
-import be.aplacetolive.utils.SlugUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
