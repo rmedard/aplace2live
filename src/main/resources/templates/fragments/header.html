@@ -36,19 +36,19 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/about}">A propos</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+            <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                <a class="btn btn-outline-warning" th:href="@{/admin}">Tableau de gestion</a>
             </li>
+            <!--<li class="nav-item dropdown">-->
+                <!--<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>-->
+                <!--<div class="dropdown-menu" aria-labelledby="dropdown01">-->
+                    <!--<a class="dropdown-item" href="#">Action</a>-->
+                    <!--<a class="dropdown-item" href="#">Another action</a>-->
+                    <!--<a class="dropdown-item" href="#">Something else here</a>-->
+                <!--</div>-->
+            <!--</li>-->
         </ul>
-        <!--<form class="form-inline my-2 my-lg-0">-->
-            <!--<input class="form-control mr-sm-2" type="text" placeholder="Search"/>-->
-            <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-        <!--</form>-->
+
         <div class="my-2 my-lg-0" th:id="user-menu">
             <span sec:authorize="isAuthenticated()">
                 Bienvenu <span sec:authentication="name"></span>

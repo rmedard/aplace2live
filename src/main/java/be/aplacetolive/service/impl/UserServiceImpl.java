@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User getUserBySlug(String slug) {
+    public User findUserBySlug(String slug) {
         return userRepository.findBySlug(slug);
     }
 
@@ -43,16 +43,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserBySlugAndType(String slug, TypeParticipant type) {
+        return userRepository.findBySlugAndType(slug, type);
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        return userRepository.findOne(id);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
     public List<User> getAllParticipants() {
-        List<User> participants = new ArrayList<>();
-        CollectionUtils.addAll(participants, userRepository.findAll().iterator());
+        List<User> participants = userRepository.findAll();
         return participants;
     }
 
     @Override
     public List<User> getParticipantsByType(TypeParticipant type) {
-        List<User> participants = new ArrayList<>();
-        CollectionUtils.addAll(participants, userRepository.findUsersByType(type).iterator());
+        List<User> participants = userRepository.findUsersByType(type);
         return participants;
     }
 

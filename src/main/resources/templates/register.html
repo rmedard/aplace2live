@@ -29,7 +29,7 @@
 
         <label for="inputTypeParticipant" class="sr-only">Type</label>
         <!--/*@thymesVar id="typesParticipants" type="java.util.List<java.lang.String>"*/-->
-        <select class="form-control" id="inputTypeParticipant"  th:field="*{type}">
+        <select class="form-control custom-select" id="inputTypeParticipant"  th:field="*{type}">
             <option th:each="typeParticipant: ${typesParticipants}"
                     th:value="${typeParticipant}"
                     th:text="${#strings.capitalize(typeParticipant.toLowerCase())}">
@@ -40,7 +40,7 @@
         <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Adresse email" required = "true"/>
 
         <label for="inputPassword" class="sr-only">Mot de passe</label>
-        <input type="password" th:field="*{password}" id="inputPassword" class="form-control" placeholder="Mot de passe" required = "true"/>
+        <input type="password" th:field="*{password}" id="inputPassword" class="form-control" placeholder="Mot de passe" required = "true" th:value="${user.password}"/>
 
         <!--<div class="checkbox">-->
         <!--<label>-->

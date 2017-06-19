@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PublicPagesCtrl {
 
-    @Autowired
-    private UserService userService;
-
     @GetMapping("/")
     public String home(){
         return "index";
@@ -32,5 +29,10 @@ public class PublicPagesCtrl {
     @GetMapping("403")
     public String error403() {
         return "error/403";
+    }
+
+    @GetMapping("404")
+    public String error404() {
+        return "error/404";
     }
 }

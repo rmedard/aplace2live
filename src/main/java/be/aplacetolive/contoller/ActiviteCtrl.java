@@ -42,7 +42,7 @@ public class ActiviteCtrl {
             activites = activiteService.getAllActivites();
         }
         model.addAttribute("activites", activites);
-        return "activites/index";
+        return "activites/default";
     }
 
     @GetMapping(value = "{slug}")

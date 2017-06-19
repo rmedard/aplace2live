@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Formulaire de modification</title>
+    <div th:replace="fragments/header :: header-css"/>
+    <!-- Custom styles for this page -->
+    <!--<link rel="stylesheet" th:href="@{/css/login.css}"/>-->
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <!--/*@thymesVar id="user" type="be.aplacetolive.entity.User"*/-->
+    <form th:action="@{/userupdate}" method="PUT" th:object="${user}" role="form">
+        <h2>Utilisateur: <span th:text="${user.nom}"></span></h2>
+        <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+
+        <div class="alert alert-success" role="alert" th:if="${successMessage}">
+            <strong>Parfait!</strong> <span th:utext="${successMessage}"></span>
+        </div>
+
+        <div class="form-group row" >
+            <label for="inputNom" class="col-2 col-form-label">Nom</label>
+            <div class="col-10">
+                <input type="text" th:field="*{nom}" id="inputNom" class="form-control" placeholder="Nom" required = "true" autofocus = "true"/>
+            </div>
+        </div>
+
+        <div class="form-group row" >
+            <label for="inputPrenom" class="col-2 col-form-label">Prénom</label>
+            <div class="col-10">
+                <input type="text" th:field="*{prenom}" id="inputPrenom" class="form-control" placeholder="Prénom" required = "false"/>
+            </div>
+        </div>
+
+        <div class="form-group row" >
+            <label for="inputTypeParticipant" class="col-2 col-form-label">Type</label>
+            <div class="col-10">
+                <!--/*@thymesVar id="typesParticipants" type="java.util.List<java.lang.String>"*/-->
+                <select class="custom-select" id="inputTypeParticipant"  th:field="*{type}">
+                    <option th:each="typeParticipant: ${typesParticipants}"
+                            th:value="${typeParticipant}"
+                            th:text="${#strings.capitalize(typeParticipant.toLowerCase())}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row" >
+            <label for="inputEmail" class="col-2 col-form-label">Adresse email</label>
+            <div class="col-10">
+                <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Adresse email" required = "true"/>
+            </div>
+        </div>
+
+        <!--<div class="form-group row">-->
+            <!--<label for="inputPassword" class="col-2 col-form-label">Mot de passe</label>-->
+            <!--<div class="col-10">-->
+                <!--<input type="password" th:field="*{password}" id="inputPassword" class="form-control" placeholder="Mot de passe" required = "true"/>-->
+            <!--</div>-->
+        <!--</div>-->
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sauvegarder</button>
+    </form>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

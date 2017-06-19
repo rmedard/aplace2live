@@ -14,5 +14,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findBySlug(String slug);
     User findByEmail(String email);
+    User findBySlugAndType(String slug, TypeParticipant type);
     List<User> findUsersByType(TypeParticipant type);
 }

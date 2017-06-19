@@ -33,7 +33,7 @@ public class SlugUtil {
                     continue;
                 } break;
             } else if (typeModel.equals(PARTICIPANT)){
-                if (((UserService)service).getUserBySlug(slug) != null){
+                if (((UserService)service).findUserBySlug(slug) != null){
                     slug = baseSlug.concat("-" + extension);
                     extension++;
                     continue;
