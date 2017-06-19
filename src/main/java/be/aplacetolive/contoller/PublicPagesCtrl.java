@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PublicPagesCtrl {
 
-    @GetMapping("/")
+    @GetMapping(value = "/")
     public String home(){
         return "index";
     }
 
-    @GetMapping("/home")
+    @GetMapping(value = "/home")
     public String home1(){
         return "index";
     }
 
-    @GetMapping("about")
+    @GetMapping(value = "about")
     public String about() {
         return "about";
     }
 
-    @GetMapping("403")
+    @GetMapping(value = "403")
     public String error403() {
         return "error/403";
     }
 
-    @GetMapping("404")
+    @GetMapping(value = "404")
     public String error404() {
         return "error/404";
     }

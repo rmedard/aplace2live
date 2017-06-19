@@ -22,14 +22,14 @@
             </tr>
             </thead>
             <tbody>
-            <!--/*@thymesVar id="activites" type="java.util.List<be.aplacetolive.entity.Activite>"*/-->
-            <tr th:each="activite : ${activites}">
-                <td th:text="${activite.nom}"></td>
-                <td th:text="${activite.description}"></td>
-                <td th:text="${activite.date}"></td>
-                <td th:text="${activite.type}"></td>
-                <td sec:authorize="hasAuthority('ADMIN')" th:text="Modifier"></td>
-            </tr>
+                <!--/*@thymesVar id="activites" type="java.util.List<be.aplacetolive.entity.Activite>"*/-->
+                <tr th:each="activite : ${activites}">
+                    <td th:text="${activite.nom}"></td>
+                    <td th:text="${activite.description}"></td>
+                    <td th:text="${#dates.format(activite.date, 'dd-MM-yyy HH:mm')}"></td>
+                    <td th:text="${activite.type}"></td>
+                    <td sec:authorize="hasAuthority('ADMIN')" th:text="Modifier"></td>
+                </tr>
             </tbody>
         </table>
     </div>

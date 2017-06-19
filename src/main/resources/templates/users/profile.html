@@ -11,23 +11,23 @@
     <h1>Profile de <span th:text="${user.nom}"></span></h1>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-4">
             <div class="card">
                 <img class="card-img-top img-fluid" th:src="@{images/unkown.jpg}" alt="Photo utilisateur">
                 <div class="card-block">
                     <h4 class="card-title">Identification</h4>
                     <dl class="row">
-                        <dt class="col-sm-3">Nom</dt>
-                        <dd class="col-sm-9" th:text="${user.nom}"></dd>
+                        <dt class="col-sm-4">Nom</dt>
+                        <dd class="col-sm-8" th:text="${user.nom}"></dd>
 
-                        <dt class="col-sm-3">Prénom</dt>
-                        <dd class="col-sm-9" th:text="${user.prenom}"></dd>
+                        <dt class="col-sm-4">Prénom</dt>
+                        <dd class="col-sm-8" th:text="${user.prenom}"></dd>
 
-                        <dt class="col-sm-3">Email</dt>
-                        <dd class="col-sm-9" th:text="${user.email}"></dd>
+                        <dt class="col-sm-4">Email</dt>
+                        <dd class="col-sm-8" th:text="${user.email}"></dd>
 
-                        <dt class="col-sm-3">Type</dt>
-                        <dd class="col-sm-9" th:text="${user.type}"></dd>
+                        <dt class="col-sm-4">Type</dt>
+                        <dd class="col-sm-8" th:text="${user.type}"></dd>
                     </dl>
                 </div>
 
@@ -37,8 +37,36 @@
             </div>
         </div>
 
-        <div class="col-9">
-            details here...
+        <div class="col-8">
+            <div class="row">
+                <h3>Les activités souscrites</h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titre</th>
+                            <th>Lieu</th>
+                            <th>Date</th>
+                            <th>Lien</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="activite, itrStat : ${user.activites}">
+                            <td th:text="${itrStat.index + 1}"></td>
+                            <td th:text="${activite.nom}"></td>
+                            <th th:text="${activite.lieu}"></th>
+                            <td th:text="${#dates.format(activite.date, 'dd-MM-yyy HH:mm')}"></td>
+                            <td>
+                                <a th:href="@{/activites(name=${activite.slug})}">
+                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                       data-toggle="tooltip" data-placement="top"
+                                       title="Détails"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>

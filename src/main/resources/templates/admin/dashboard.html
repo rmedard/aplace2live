@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <div th:replace="fragments/header :: header-css"/>
 </head>
@@ -6,10 +7,93 @@
 <div th:replace="fragments/header :: header"/>
 
 <div class="container">
+    <h1 class="display-3 text-center">Panneau de gestion</h1>
+    <div class="row">
+        <div class="col-9"><h3>Les activités</h3></div>
+        <div class="col-3">
+            <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#exampleModal">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Nouvelle activité
+            </button>
+        </div>
 
-    <div class="centered-page">
-        <h1>Panneau de gesion</h1>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cupiditate eum excepturi harum id in laborum nam optio, quae, qui, quod quos reiciendis repudiandae sed sit. Illo ipsum praesentium quas!</p>
+        <table class="table table-striped table-hover">
+            <thead class="thead-inverse">
+            <tr>
+                <th>#</th>
+                <th th:text="Nom"></th>
+                <th th:text="Descrition"></th>
+                <th th:text="Date"></th>
+                <th th:text="Type"></th>
+                <th sec:authorize="hasAuthority('ADMIN')" th:text="Opération"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--/*@thymesVar id="activites" type="java.util.List<be.aplacetolive.entity.Activite>"*/-->
+            <tr th:each="activite, itrStatus : ${activites}">
+                <td th:text="${itrStatus.index + 1}"></td>
+                <td th:text="${activite.nom}"></td>
+                <td th:text="${activite.description}"></td>
+                <td th:text="${#dates.format(activite.date, 'dd-MM-yyy HH:mm')}"></td>
+                <td th:text="${activite.type}"></td>
+                <td th:text="Modifier"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-9"><h3>Les participants</h3></div>
+        <div class="col-3">
+            <button type="button" class="btn btn-success btn-sm float-right">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Nouveau participant
+            </button>
+        </div>
+
+        <table class="table table-striped table-hover">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>#</th>
+                    <th th:text="Nom"></th>
+                    <th th:text="Prénom"></th>
+                    <th th:text="Email"></th>
+                    <th th:text="Type"></th>
+                    <th th:text="Opération"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--/*@thymesVar id="participants" type="java.util.List<be.aplacetolive.entity.User>"*/-->
+                <tr th:each="participant, itrStatus : ${participants}">
+                    <td th:text="${itrStatus.index + 1}"></td>
+                    <td th:text="${participant.nom}"></td>
+                    <td th:text="${participant.prenom}"></td>
+                    <td th:text="${participant.email}"></td>
+                    <td th:text="${participant.type}"></td>
+                    <td th:text="Modifier"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Form Activité -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div><!-- /.container -->

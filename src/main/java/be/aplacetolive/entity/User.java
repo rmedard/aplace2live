@@ -118,6 +118,7 @@ public class User {
         this.active = active;
     }
 
+    @OrderBy(value = "date DESC")
     public Set<Activite> getActivites() {
         return activites;
     }

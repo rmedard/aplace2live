@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +60,25 @@ public class ParticipantCtrl {
         }
         modelAndView.addObject("participants", participants);
         modelAndView.setViewName("users/default");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "currentprofile")
+    private ModelAndView findLoggedInUser(){
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.isAuthenticated()){
+            String email = auth.getName();
+            User participant = userService.findUserByEmail(email);
+            if (participant != null) {
+                modelAndView.addObject("user", participant);
+                modelAndView.setViewName("users/profile");
+            } else {
+                modelAndView.setViewName("error/404");
+            }
+        } else {
+            modelAndView.setViewName("home");
+        }
         return modelAndView;
     }
 
