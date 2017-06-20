@@ -10,9 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,15 +54,10 @@ public class ActiviteCtrl {
     }
 
     @PostMapping(value = "add")
-    public ResponseEntity<Void> createActivite(@RequestBody Activite activite, UriComponentsBuilder builder){
-        boolean flag = activiteService.createActivite(activite);
-        if (flag == false) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/{id}").buildAndExpand(activite.getId()).toUri());
-
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    public String createActivite(@RequestBody Activite activite){
+        ModelAndView modelAndView = new ModelAndView();
+        activiteService.createActivite(activite);
+        return null;
     }
 
     @PutMapping(value = "edit")

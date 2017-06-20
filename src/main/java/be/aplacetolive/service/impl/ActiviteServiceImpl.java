@@ -51,10 +51,10 @@ public class ActiviteServiceImpl implements ActiviteService {
     }
 
     @Override
-    public boolean createActivite(Activite activite) {
+    public Activite createActivite(Activite activite) {
         activite.setSlug(SlugUtil.slugify(activite.getNom(), this, SlugUtil.ACTIVITE));
         Activite newActivite = activiteRepo.save(activite);
-        return newActivite == null ? false : true;
+        return newActivite;
     }
 
     @Override

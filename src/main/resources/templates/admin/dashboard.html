@@ -79,19 +79,58 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                <!--/*@thymesVar id="activite" type="be.aplacetolive.entity.Activite"*/-->
+                <form th:action="@{/activites/add}" th:object="${activite}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group row">
+                            <label for="nomId" class="col-2 col-form-label">Nom</label>
+                            <div class="col-10">
+                                <input class="form-control" type="text" id="nomId" th:field="*{nom}"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="descrId" class="col-2 col-form-label">Description</label>
+                            <div class="col-10">
+                                <textarea id="descrId" rows="4" class="form-control" th:field="*{description}"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="dateId" class="col-2 col-form-label">Date</label>
+                            <div class="col-10">
+                                <input class="form-control" type="date" id="dateId" th:field="*{date}"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lieuId" class="col-2 col-form-label">Lieu</label>
+                            <div class="col-10">
+                                <input class="form-control" type="text" id="lieuId" th:field="*{lieu}"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="typeId" class="col-2 col-form-label">Type</label>
+                            <div class="col-10">
+                                <select class="form-control" name="" id="typeId" th:field="*{type}">
+                                    <!--/*@thymesVar id="participantTypes" type="java.util.List<java.lang.String>"*/-->
+                                    <option th:each="typeParticipant: ${participantTypes}"
+                                            th:value="${typeParticipant}"
+                                            th:text="${#strings.capitalize(typeParticipant.toLowerCase())}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

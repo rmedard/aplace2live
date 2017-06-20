@@ -1,5 +1,6 @@
 package be.aplacetolive.contoller;
 
+import be.aplacetolive.entity.Activite;
 import be.aplacetolive.service.ActiviteService;
 import be.aplacetolive.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class AdminPagesCtrl {
     @GetMapping
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("activite", new Activite()); // Empty object for the popup
+        modelAndView.addObject("participantTypes", userService.getTypesParticipant());
         modelAndView.addObject("activites", activiteService.getAllActivites());
         modelAndView.addObject("participants", userService.getAllParticipants());
         modelAndView.setViewName("admin/dashboard");

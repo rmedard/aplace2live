@@ -13,7 +13,7 @@ public interface ActiviteService {
     Activite getActiviteById(long id);
     Activite getActiviteBySlug(String slug);
     List<Activite> getActivitesByType(TypeActivite type);
-    boolean createActivite(Activite activite);
+    Activite createActivite(Activite activite);
     boolean updateActivite(Activite activite);
     void deleteActivite(long id);
     boolean addParticipant(String activiteSlug, long participantId);
