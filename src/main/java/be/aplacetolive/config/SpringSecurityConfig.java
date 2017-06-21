@@ -55,7 +55,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception{
         web.ignoring().antMatchers("/webjars/**");
-        web.ignoring().antMatchers("/css/**", "/fonts/**", "/libs/**", "/images/**");
+        web.ignoring().antMatchers("/css/**", "/js/**","/fonts/**", "/libs/**", "/images/**");
     }
 
     @Autowired

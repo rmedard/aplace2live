@@ -5,18 +5,18 @@ import be.aplacetolive.entity.types.TypeActivite;
 import be.aplacetolive.service.ActiviteService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,10 +54,20 @@ public class ActiviteCtrl {
     }
 
     @PostMapping(value = "add")
-    public String createActivite(@RequestBody Activite activite){
+    public ModelAndView createActivite(@Valid Activite activite, BindingResult bindingResult){
         ModelAndView modelAndView = new ModelAndView();
-        activiteService.createActivite(activite);
-        return null;
+        Activite act = activiteService.createActivite(activite);
+        if (act == null) {
+//            bindingResult.addError(new ObjectError("activite"));
+            modelAndView.setViewName("404");
+        }
+
+        if (!bindingResult.hasErrors()) {
+            modelAndView.addObject("successMessage", "Le participant est mis à jour");
+            modelAndView.addObject("user", act);
+        }
+        modelAndView.setViewName("redirect:admin");
+        return modelAndView;
     }
 
     @PutMapping(value = "edit")

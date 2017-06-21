@@ -26,7 +26,7 @@ public class AdminPagesCtrl {
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("activite", new Activite()); // Empty object for the popup
-        modelAndView.addObject("participantTypes", userService.getTypesParticipant());
+        modelAndView.addObject("activiteTypes", activiteService.getTypesActivite());
         modelAndView.addObject("activites", activiteService.getAllActivites());
         modelAndView.addObject("participants", userService.getAllParticipants());
         modelAndView.setViewName("admin/dashboard");
