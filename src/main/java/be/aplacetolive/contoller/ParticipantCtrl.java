@@ -64,7 +64,7 @@ public class ParticipantCtrl {
     private ModelAndView findLoggedInUser(){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.isAuthenticated()){
+        if (auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")){
             String email = auth.getName();
             User participant = userService.findUserByEmail(email);
             if (participant != null) {

@@ -8,12 +8,20 @@
 
 <div class="container">
     <h1 class="display-3 text-center">Panneau de gestion</h1>
+    <!--/*@thymesVar id="successMsg" type="java.lang.String"*/-->
+    <div class="alert alert-success" role="alert" th:if="${successMsg}">
+        <strong>Parfait! </strong><span th:utext="${successMsg}"></span>
+    </div>
+    <!--/*@thymesVar id="errorMsg" type="java.lang.String"*/-->
+    <div class="alert alert-error" role="alert" th:if="${errorMsg}">
+        <strong>Parfait! </strong><span th:utext="${errorMsg}"></span>
+    </div>
     <div class="row">
         <div class="col-10"><h3>Les activités</h3></div>
         <div class="col-2">
-            <button type="button" class="btn btn-success btn-sm btn-block" data-toggle="modal" data-target="#exampleModal">
+            <a th:href="@{/editactivite}" class="btn btn-success btn-sm btn-block">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i> Nouvelle activité
-            </button>
+            </a>
         </div>
 
         <table class="table table-striped table-hover">

@@ -3,6 +3,8 @@ package be.aplacetolive.contoller;
 import be.aplacetolive.entity.User;
 import be.aplacetolive.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +22,21 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    private Authentication auth;
+
     @GetMapping(value = "/login")
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
+        auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")){
+            String email = auth.getName();
+            User participant = userService.findUserByEmail(email);
+            modelAndView.addObject("loggedInMsg", "Vous êtes déjà connecté!");
+            modelAndView.addObject("user", participant);
+            modelAndView.setViewName("redirect:currentprofile");
+        } else {
+            modelAndView.setViewName("login");
+        }
         return modelAndView;
     }
 
@@ -37,7 +50,7 @@ public class LoginController {
 
         if (!bindingResult.hasErrors()){
             userService.createUser(user);
-            modelAndView.addObject("successMessage", "Le participant est enregistré");
+            modelAndView.addObject("successMsg", "Le participant est enregistré");
             modelAndView.addObject("user", new User());
         }
         modelAndView.setViewName("register");

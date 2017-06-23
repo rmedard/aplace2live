@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+             xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div>
+        <h1>Les activités</h1>
+
+        <!--/*@thymesVar id="activite" type="be.aplacetolive.entity.Activite"*/-->
+        <form th:action="@{/activites/add}" method="post" th:object="${activite}" role="form">
+            <div class="form-group row">
+                <label for="nomId" class="col-2 col-form-label">Titre</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="nomId" th:field="*{nom}" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="descrId" class="col-2 col-form-label">Description</label>
+                <div class="col-10">
+                    <textarea class="form-control" type="text" id="descrId" th:field="*{description}" ></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lieuId" class="col-2 col-form-label">Lieu</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="lieuId" th:field="*{lieu}" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="typeId" class="col-2 col-form-label">Type</label>
+                <div class="col-10">
+                    <select class="form-control custom-select" id="typeId"  th:field="*{type}">
+                        <!--/*@thymesVar id="typesActivites" type="java.util.List<java.lang.String>"*/-->
+                        <option th:each="typeActivite: ${typesActivites}"
+                                th:value="${typeActivite}"
+                                th:text="${#strings.capitalize(typeActivite.toLowerCase())}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="dateId" class="col-2 col-form-label">Date</label>
+                <div class="col-10">
+                    <input class="form-control" type="date" id="dateId" th:field="*{date}" />
+                    <!--<input id="dateId" type="text" class="form-control datepicker" th:field="*{date}" data-date-format="dd-mm-yyyy HH:mm" />-->
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        </form>
+    </div>
+
+</div><!-- /.container -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

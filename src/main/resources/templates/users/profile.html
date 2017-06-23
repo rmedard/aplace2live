@@ -9,6 +9,10 @@
 <div class="container">
     <!--/*@thymesVar id="user" type="be.aplacetolive.entity.User"*/-->
     <h1 class="display-3 text-center">Profile de <span th:text="${user.nom}"></span></h1>
+    <!--/*@thymesVar id="loggedInMsg" type="java.lang.String"*/-->
+    <div class="alert alert-success" role="alert" th:if="${loggedInMsg}">
+        <strong>Parfait! </strong><span th:utext="${loggedInMsg}"></span>
+    </div>
     <div class="row">
         <div class="col-4">
             <div class="card">

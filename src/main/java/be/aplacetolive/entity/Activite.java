@@ -1,8 +1,7 @@
 package be.aplacetolive.entity;
 
 import be.aplacetolive.entity.types.TypeActivite;
-import be.aplacetolive.utils.JsonDateSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,8 +31,8 @@ public class Activite implements Serializable {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @JsonSerialize(using = JsonDateSerializer.class)
     @Column(name = "date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date date;
 
     @Column(name = "lieu", nullable = false)
@@ -78,7 +77,6 @@ public class Activite implements Serializable {
         this.description = description;
     }
 
-    @JsonSerialize(using = JsonDateSerializer.class)
     public Date getDate() {
         return date;
     }

@@ -6,17 +6,14 @@ import be.aplacetolive.service.ActiviteService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,25 +45,29 @@ public class ActiviteCtrl {
     }
 
     @GetMapping(value = "{slug}")
-    public ResponseEntity<Activite> getActiviteBySlug(@PathVariable(value = "slug") String slug){
+    public ModelAndView getActiviteBySlug(@PathVariable(value = "slug") String slug){
+        ModelAndView modelAndView = new ModelAndView();
         Activite activite = activiteService.getActiviteBySlug(slug);
-        return activite == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(activite, HttpStatus.OK);
+        if (activite == null) {
+            modelAndView.setViewName("error/404");
+        } else {
+            modelAndView.addObject("activite", activite);
+            modelAndView.addObject("typesActivites", activiteService.getTypesActivite());
+            modelAndView.setViewName("activites/activiteForm");
+        }
+        return modelAndView;
     }
 
-    @PostMapping(value = "add")
-    public ModelAndView createActivite(@Valid Activite activite, BindingResult bindingResult){
+    @PostMapping(value = "add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView createActivite(Activite activite){
         ModelAndView modelAndView = new ModelAndView();
         Activite act = activiteService.createActivite(activite);
         if (act == null) {
-//            bindingResult.addError(new ObjectError("activite"));
-            modelAndView.setViewName("404");
+            modelAndView.addObject("errorMsg", "Sauvegarde échouée");
+        } else {
+            modelAndView.addObject("successMsg", "L'activité est sauvegardée");
         }
-
-        if (!bindingResult.hasErrors()) {
-            modelAndView.addObject("successMessage", "Le participant est mis à jour");
-            modelAndView.addObject("user", act);
-        }
-        modelAndView.setViewName("redirect:admin");
+        modelAndView.setViewName("/admin");
         return modelAndView;
     }
 

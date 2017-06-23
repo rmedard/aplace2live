@@ -35,4 +35,9 @@ public class PublicPagesCtrl {
     public String error404() {
         return "error/404";
     }
+
+    @GetMapping(value = "500")
+    public String error500() {
+        return "error/500";
+    }
 }
