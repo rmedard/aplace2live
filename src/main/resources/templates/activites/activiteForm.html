@@ -1,10 +1,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
              xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <div th:replace="fragments/header :: header-css"/>
+    <div th:replace="/fragments/header :: header-css"/>
 </head>
 <body>
-<div th:replace="fragments/header :: header"/>
+<div th:replace="/fragments/header :: header"/>
 
 <div class="container">
 
@@ -16,7 +16,7 @@
             <div class="form-group row">
                 <label for="nomId" class="col-2 col-form-label">Titre</label>
                 <div class="col-10">
-                    <input class="form-control" type="text" id="nomId" th:field="*{nom}" />
+                    <input class="form-control" type="text" id="nomId" th:field="*{nom}" th:required="true" />
                 </div>
             </div>
             <div class="form-group row">
@@ -28,7 +28,7 @@
             <div class="form-group row">
                 <label for="lieuId" class="col-2 col-form-label">Lieu</label>
                 <div class="col-10">
-                    <input class="form-control" type="text" id="lieuId" th:field="*{lieu}" />
+                    <input class="form-control" type="text" id="lieuId" th:field="*{lieu}" th:required="true" />
                 </div>
             </div>
             <div class="form-group row">
@@ -46,8 +46,7 @@
             <div class="form-group row">
                 <label for="dateId" class="col-2 col-form-label">Date</label>
                 <div class="col-10">
-                    <input class="form-control" type="date" id="dateId" th:field="*{date}" />
-                    <!--<input id="dateId" type="text" class="form-control datepicker" th:field="*{date}" data-date-format="dd-mm-yyyy HH:mm" />-->
+                    <input class="form-control" type="date" id="dateId" th:field="*{date}" th:required="true" />
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Sauvegarder</button>
@@ -57,7 +56,7 @@
 </div><!-- /.container -->
 
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="/fragments/footer :: footer"/>
 
 </body>
 </html>

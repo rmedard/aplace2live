@@ -44,7 +44,7 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/activites}">Activités</a>
             </li>
-            <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                 <a class="btn btn-outline-warning" th:href="@{/admin}">Tableau de gestion</a>
             </li>
             <!--<li class="nav-item dropdown">-->

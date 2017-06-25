@@ -35,13 +35,23 @@
                 </div>
 
                 <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
+                    <button class="btn btn-success btn-block" data-toggle="modal" data-target="#userProfileModalId">Modifier</button>
                 </div>
             </div>
         </div>
 
         <div class="col-8">
             <div class="row">
+
+                <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+                <div class="alert alert-success" role="alert" th:if="${successMessage}">
+                    <strong>Parfait! </strong><span th:utext="${successMessage}"></span>
+                </div>
+                <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+                <div class="alert alert-error" role="alert" th:if="${errorMessage}">
+                    <strong>Parfait! </strong><span th:utext="${errorMessage}"></span>
+                </div>
+
                 <h3>Les activités souscrites</h3>
                 <table class="table table-hover">
                     <thead>
@@ -58,7 +68,7 @@
                             <td th:text="${itrStat.index + 1}"></td>
                             <td th:text="${activite.nom}"></td>
                             <th th:text="${activite.lieu}"></th>
-                            <td th:text="${#dates.format(activite.date, 'dd-MM-yyy HH:mm')}"></td>
+                            <td th:text="${#temporals.format(activite.date, 'dd-MM-yyyy')}"></td>
                             <td>
                                 <a th:href="@{/activites(name=${activite.slug})}">
                                     <i class="fa fa-info-circle" aria-hidden="true"
@@ -73,6 +83,66 @@
         </div>
 
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="userProfileModalId" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form th:action="@{/participants}" th:method="patch" th:object="${user}" role="form">
+                    <input type="hidden" th:field="*{id}" />
+                    <input type="hidden" th:field="*{slug}" />
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modifier le profile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group row" >
+                            <label for="inputNom" class="col-2 col-form-label">Nom</label>
+                            <div class="col-10">
+                                <input type="text" th:field="*{nom}" id="inputNom" class="form-control" placeholder="Nom" required = "true" autofocus = "true"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" >
+                            <label for="inputPrenom" class="col-2 col-form-label">Prénom</label>
+                            <div class="col-10">
+                                <input type="text" th:field="*{prenom}" id="inputPrenom" class="form-control" placeholder="Prénom" required = "false"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" >
+                            <label for="inputTypeParticipant" class="col-2 col-form-label">Type</label>
+                            <div class="col-10">
+                                <!--/*@thymesVar id="typesParticipants" type="java.util.List<java.lang.String>"*/-->
+                                <select class="custom-select" id="inputTypeParticipant"  th:field="*{type}">
+                                    <option th:each="typeParticipant: ${typesParticipants}"
+                                            th:value="${typeParticipant}"
+                                            th:text="${#strings.capitalize(typeParticipant.toLowerCase())}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" >
+                            <label for="inputEmail" class="col-2 col-form-label">Adresse email</label>
+                            <div class="col-10">
+                                <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Adresse email" required = "true"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 </div><!-- /.container -->
 

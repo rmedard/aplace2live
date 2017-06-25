@@ -3,16 +3,17 @@ package be.aplacetolive.contoller;
 import be.aplacetolive.entity.User;
 import be.aplacetolive.entity.types.TypeParticipant;
 import be.aplacetolive.service.UserService;
+import be.aplacetolive.utils.LogginUtil;
+import be.aplacetolive.validator.UserValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +21,16 @@ import java.util.List;
  * Created by Medard on 12/05/2017.
  */
 @Controller
+@RequestMapping(value = "participants")
 public class ParticipantCtrl {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "participants")
+    @Autowired
+    private LogginUtil logginUtil;
+
+    @GetMapping
     public ModelAndView getAllParticipants(@RequestParam(value = "type", required = false) String type,
                                            @RequestParam(value = "username", required = false) String slug){
         ModelAndView modelAndView = new ModelAndView();
@@ -45,7 +50,7 @@ public class ParticipantCtrl {
                         modelAndView.addObject("user", participant);
                         modelAndView.setViewName("users/profile");
                     } else {
-                        modelAndView.setViewName("error/404");
+                        modelAndView.setViewName("404");
                     }
                     return modelAndView;
                 } else {
@@ -60,55 +65,24 @@ public class ParticipantCtrl {
         return modelAndView;
     }
 
-    @GetMapping(value = "currentprofile")
-    private ModelAndView findLoggedInUser(){
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")){
-            String email = auth.getName();
-            User participant = userService.findUserByEmail(email);
-            if (participant != null) {
-                modelAndView.addObject("user", participant);
-                modelAndView.setViewName("users/profile");
+    @PatchMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView updateUser(User user, ModelMap model){
+        User loggedInUser = logginUtil.getLoggedInUser();
+        if (loggedInUser == null){
+            return new ModelAndView("login");
+        } else {
+            User userExists = userService.findUserById(user.getId());
+            if (userExists == null){
+                return new ModelAndView("404");
             } else {
-                modelAndView.setViewName("error/404");
+                if (userExists.getId() != loggedInUser.getId()) {
+                    return new ModelAndView("403");
+                }
+                User updatedUser = userService.updateUser(user);
+                model.addAttribute("successMessage", "Le participant est mis à jour");
+                model.addAttribute("user", updatedUser);
+                return new ModelAndView("redirect:/currentprofile", model);
             }
-        } else {
-            modelAndView.setViewName("home");
         }
-        return modelAndView;
-    }
-
-    @PutMapping(value = "participants")
-    public ModelAndView updateUser(@Valid User user, BindingResult bindingResult){
-        ModelAndView modelAndView = new ModelAndView();
-        User userExists = userService.findUserById(user.getId());
-        if (userExists == null){
-            bindingResult.rejectValue("email", "error.user", "L'utilisateur n'existe pas");
-        }
-
-        if (!bindingResult.hasErrors()){
-            User updatedUser = userService.updateUser(user);
-            modelAndView.addObject("successMessage", "Le participant est mis à jour");
-            modelAndView.addObject("user", updatedUser);
-            modelAndView.setViewName("users/profile");
-        } else {
-            modelAndView.setViewName("users/userform");
-        }
-        return modelAndView;
-    }
-
-    @GetMapping(value = "updateuser")
-    public ModelAndView updateUser(@RequestParam(value = "username") String slug){
-        ModelAndView modelAndView = new ModelAndView();
-        User user = userService.findUserBySlug(slug);
-        if (user != null){
-            modelAndView.addObject("user", user);
-            modelAndView.addObject("typesParticipants", userService.getTypesParticipant());
-            modelAndView.setViewName("users/userform");
-        } else {
-            modelAndView.setViewName("error/404");
-        }
-        return modelAndView;
     }
 }

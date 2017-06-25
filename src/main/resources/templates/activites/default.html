@@ -11,32 +11,78 @@
     <div class="centered-page">
         <h1>Les activités</h1>
 
+        <!--/*@thymesVar id="successMsg" type="java.lang.String"*/-->
+        <div class="alert alert-success" role="alert" th:if="${successMsg}">
+            <strong>Parfait! </strong><span th:utext="${successMsg}"></span>
+        </div>
+        <!--/*@thymesVar id="errorMsg" type="java.lang.String"*/-->
+        <div class="alert alert-error" role="alert" th:if="${errorMsg}">
+            <strong>Parfait! </strong><span th:utext="${errorMsg}"></span>
+        </div>
+
         <table class="table table-striped table-hover">
             <thead class="thead-inverse">
             <tr>
+                <th>#</th>
                 <th th:text="Nom"></th>
                 <th th:text="Descrition"></th>
                 <th th:text="Date"></th>
                 <th th:text="Type"></th>
-                <th sec:authorize="hasAuthority('ADMIN')" th:text="Opérations" th:colspan="2"></th>
+                <th sec:authorize="isAuthenticated() and not isAnonymous()" th:text="Opérations"></th>
             </tr>
             </thead>
             <tbody>
                 <!--/*@thymesVar id="activites" type="java.util.List<be.aplacetolive.entity.Activite>"*/-->
-                <tr th:each="activite : ${activites}">
+                <tr th:each="activite, status : ${activites}">
+                    <td th:text="${status.index + 1}"></td>
                     <td th:text="${activite.nom}"></td>
                     <td th:text="${activite.description}"></td>
-                    <td th:text="${#dates.format(activite.date, 'dd-MM-yyy')}"></td>
+                    <td th:text="${#temporals.format(activite.date, 'dd-MM-yyyy')}"></td>
                     <td th:text="${activite.type}"></td>
                     <td sec:authorize="isAuthenticated() and not isAnonymous()">
-                        <button class="btn btn-success btn-sm" type="button">Participer</button>
-                    </td>
-                    <td sec:authorize="hasAuthority('ADMIN')">
-                        <a th:href="@{'/activites/' + ${activite.slug}}" class="btn btn-warning btn-sm">Modifier</a>
+                        <!--/*@thymesVar id="loggedInUser" type="be.aplacetolive.entity.User"*/-->
+                        <button class="btn btn-success btn-sm btn-block" type="button"
+                                th:if="${loggedInUser != null and not #lists.contains(loggedInUser.activites, activite) and #temporals.createToday() lt activite.date}"
+                                data-toggle="modal" data-target="#confirmParticipationId"
+                                th:data-activiteslug="${activite.slug}" th:data-activitetitle="${activite.nom}">Participer</button>
+                        <button class="btn btn-warning btn-sm btn-block" type="button"
+                                th:if="${loggedInUser != null and #lists.contains(loggedInUser.activites, activite)}"
+                                th:disabled="true"
+                                th:data-activiteslug="${activite.slug}" th:data-activitetitle="${activite.nom}">Inscrit</button>
+                        <button class="btn btn-danger btn-sm btn-block" type="button"
+                                th:if="${loggedInUser != null and #temporals.createToday() gt activite.date}"
+                                th:disabled="true"
+                                data-toggle="modal" data-target="#confirmParticipationId"
+                                th:data-activiteslug="${activite.slug}" th:data-activitetitle="${activite.nom}">Terminée</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <!-- Modal -->
+        <div class="modal fade" id="confirmParticipationId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form th:action="@{/activites/participant/}" method="post" role="form">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="activiteSlug" th:id="activiteSlugId"/>
+                            <p>Voulez-vous participer à: <span th:id="activiteTitleId"></span> </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Non</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Oui</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div><!-- /.container -->

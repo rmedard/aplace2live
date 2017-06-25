@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -32,8 +32,8 @@ public class Activite implements Serializable {
     private String description;
 
     @Column(name = "date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private Date date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
 
     @Column(name = "lieu", nullable = false)
     private String lieu;
@@ -77,11 +77,11 @@ public class Activite implements Serializable {
         this.description = description;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -58,13 +58,13 @@ public class ActiviteServiceImpl implements ActiviteService {
     }
 
     @Override
-    public boolean updateActivite(Activite activite) {
+    public Activite updateActivite(Activite activite) {
         if (activite == null || activite.getId() == 0L){
-            return false;
+            return null;
         } else {
             Activite act = activiteRepo.findActiviteById(activite.getId());
             if (act == null){
-                return false;
+                return null;
             } else {
                 act.setDate(activite.getDate());
                 act.setDescription(activite.getDescription());
@@ -72,7 +72,7 @@ public class ActiviteServiceImpl implements ActiviteService {
                 act.setNom(activite.getNom());
                 act.setType(activite.getType());
                 activiteRepo.save(act);
-                return true;
+                return act;
             }
         }
     }

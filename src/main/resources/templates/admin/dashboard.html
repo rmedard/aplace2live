@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-10"><h3>Les activités</h3></div>
         <div class="col-2">
-            <a th:href="@{/editactivite}" class="btn btn-success btn-sm btn-block">
+            <a th:href="@{/admin/newactivite}" class="btn btn-success btn-sm btn-block">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i> Nouvelle activité
             </a>
         </div>
@@ -32,7 +32,7 @@
                 <th th:text="Descrition"></th>
                 <th th:text="Date"></th>
                 <th th:text="Type"></th>
-                <th sec:authorize="hasAuthority('ADMIN')" th:text="Opération"></th>
+                <th sec:authorize="hasRole('ADMIN')" th:text="Opération"></th>
             </tr>
             </thead>
             <tbody>
@@ -41,9 +41,11 @@
                 <td th:text="${itrStatus.index + 1}"></td>
                 <td th:text="${activite.nom}"></td>
                 <td th:text="${activite.description}"></td>
-                <td th:text="${#dates.format(activite.date, 'dd-MM-yyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(activite.date, 'dd-MM-yyyy')}"></td>
                 <td th:text="${activite.type}"></td>
-                <td th:text="Modifier"></td>
+                <td>
+                    <a th:href="@{'/activites/' + ${activite.slug}}" class="btn btn-warning btn-sm">Détails</a>
+                </td>
             </tr>
             </tbody>
         </table>
