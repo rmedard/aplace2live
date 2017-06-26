@@ -1,5 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/header :: header-css"/>
 </head>
@@ -16,7 +15,7 @@
     <div class="row">
         <div class="col-4">
             <div class="card">
-                <img class="card-img-top img-fluid" th:src="@{images/unkown.jpg}" alt="Photo utilisateur">
+                <img class="card-img-top img-fluid" th:src="@{/images/unkown.jpg}" alt="Photo utilisateur">
                 <div class="card-block">
                     <h4 class="card-title">Identification</h4>
                     <dl class="row">
@@ -35,26 +34,29 @@
                 </div>
 
                 <div class="card-footer">
-                    <button class="btn btn-success btn-block" data-toggle="modal" data-target="#userProfileModalId">Modifier</button>
+                    <button class="btn btn-success btn-block" data-toggle="modal"
+                            data-target="#userProfileModalId" th:disabled="${#authentication.getName() ne user.email}">Modifier</button>
                 </div>
             </div>
         </div>
 
         <div class="col-8">
             <div class="row">
-
-                <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
-                <div class="alert alert-success" role="alert" th:if="${successMessage}">
-                    <strong>Parfait! </strong><span th:utext="${successMessage}"></span>
+                <div class="col-12">
+                    <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+                    <div class="alert alert-success" role="alert" th:if="${successMessage}">
+                        <strong>Parfait! </strong><span th:utext="${successMessage}"></span>
+                    </div>
+                    <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+                    <div class="alert alert-error" role="alert" th:if="${errorMessage}">
+                        <strong>Parfait! </strong><span th:utext="${errorMessage}"></span>
+                    </div>
                 </div>
-                <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-                <div class="alert alert-error" role="alert" th:if="${errorMessage}">
-                    <strong>Parfait! </strong><span th:utext="${errorMessage}"></span>
-                </div>
 
-                <h3>Les activités souscrites</h3>
-                <table class="table table-hover">
-                    <thead>
+                <div class="col-12">
+                    <h3>Les activités souscrites</h3>
+                    <table class="table table-hover table-sm">
+                        <thead>
                         <tr>
                             <th>#</th>
                             <th>Titre</th>
@@ -62,23 +64,20 @@
                             <th>Date</th>
                             <th>Lien</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr th:each="activite, itrStat : ${user.activites}">
                             <td th:text="${itrStat.index + 1}"></td>
                             <td th:text="${activite.nom}"></td>
                             <th th:text="${activite.lieu}"></th>
                             <td th:text="${#temporals.format(activite.date, 'dd-MM-yyyy')}"></td>
                             <td>
-                                <a th:href="@{/activites(name=${activite.slug})}">
-                                    <i class="fa fa-info-circle" aria-hidden="true"
-                                       data-toggle="tooltip" data-placement="top"
-                                       title="Détails"></i>
-                                </a>
+                                <a th:href="@{'/activites/' + ${activite.slug}}" th:text="Détails" class="btn btn-sm btn-info"></a>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

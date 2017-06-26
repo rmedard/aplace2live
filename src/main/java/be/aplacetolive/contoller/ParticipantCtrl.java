@@ -4,15 +4,12 @@ import be.aplacetolive.entity.User;
 import be.aplacetolive.entity.types.TypeParticipant;
 import be.aplacetolive.service.UserService;
 import be.aplacetolive.utils.LogginUtil;
-import be.aplacetolive.validator.UserValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +45,10 @@ public class ParticipantCtrl {
                     User participant = userService.findUserBySlug(slug);
                     if (participant != null){
                         modelAndView.addObject("user", participant);
+                        modelAndView.addObject("typesParticipants", userService.getTypesParticipant());
                         modelAndView.setViewName("users/profile");
                     } else {
-                        modelAndView.setViewName("404");
+                        modelAndView.setViewName("forward:/404");
                     }
                     return modelAndView;
                 } else {
@@ -65,23 +63,26 @@ public class ParticipantCtrl {
         return modelAndView;
     }
 
-    @PatchMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView updateUser(User user, ModelMap model){
+    @PatchMapping
+    public ModelAndView updateUser(@ModelAttribute User user, RedirectAttributes redirectAttributes){
         User loggedInUser = logginUtil.getLoggedInUser();
         if (loggedInUser == null){
             return new ModelAndView("login");
         } else {
             User userExists = userService.findUserById(user.getId());
             if (userExists == null){
-                return new ModelAndView("404");
+                return new ModelAndView("forward:/404");
             } else {
                 if (userExists.getId() != loggedInUser.getId()) {
-                    return new ModelAndView("403");
+                    return new ModelAndView("forward:/403");
                 }
                 User updatedUser = userService.updateUser(user);
-                model.addAttribute("successMessage", "Le participant est mis à jour");
-                model.addAttribute("user", updatedUser);
-                return new ModelAndView("redirect:/currentprofile", model);
+                if (updatedUser != null){
+                    redirectAttributes.addFlashAttribute("successMessage", "Le participant est mis à jour");
+                } else {
+                    redirectAttributes.addFlashAttribute("errorMessage", "Mise à jour échouée!!");
+                }
+                return new ModelAndView("redirect:/currentprofile");
             }
         }
     }

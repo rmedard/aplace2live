@@ -15,9 +15,9 @@
     <!--/*@thymesVar id="user" type="be.aplacetolive.entity.User"*/-->
     <form class="form-signin" th:action="@{/register}" method="post" th:object="${user}" role="form">
         <h2 class="form-signin-heading">Inscrivez-vous</h2>
-        <!--/*@thymesVar id="successMsg" type="java.lang.String"*/-->
-        <div class="alert alert-success" role="alert" th:if="${successMsg}">
-            <strong>Parfait!</strong> <span th:utext="${successMsg}"></span>
+        <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+        <div class="alert alert-success" role="alert" th:if="${successMessage}">
+            <strong>Parfait!</strong> <span th:utext="${successMessage}"></span>
         </div>
 
         <label for="inputNom" class="sr-only">Nom</label>

@@ -11,13 +11,13 @@
     <div class="centered-page">
         <h1>Les activités</h1>
 
-        <!--/*@thymesVar id="successMsg" type="java.lang.String"*/-->
-        <div class="alert alert-success" role="alert" th:if="${successMsg}">
-            <strong>Parfait! </strong><span th:utext="${successMsg}"></span>
+        <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+        <div class="alert alert-success" role="alert" th:if="${successMessage}">
+            <strong>Parfait! </strong><span th:utext="${successMessage}"></span>
         </div>
-        <!--/*@thymesVar id="errorMsg" type="java.lang.String"*/-->
-        <div class="alert alert-error" role="alert" th:if="${errorMsg}">
-            <strong>Parfait! </strong><span th:utext="${errorMsg}"></span>
+        <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+        <div class="alert alert-error" role="alert" th:if="${errorMessage}">
+            <strong>Parfait! </strong><span th:utext="${errorMessage}"></span>
         </div>
 
         <table class="table table-striped table-hover">

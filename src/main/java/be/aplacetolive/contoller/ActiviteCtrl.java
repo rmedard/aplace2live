@@ -7,15 +7,10 @@ import be.aplacetolive.service.ActiviteService;
 import be.aplacetolive.utils.LogginUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +58,7 @@ public class ActiviteCtrl {
         ModelAndView modelAndView = new ModelAndView();
         Activite activite = activiteService.getActiviteBySlug(slug);
         if (activite == null) {
-            modelAndView.setViewName("error/404");
+            modelAndView.setViewName("forward:/404");
         } else {
             modelAndView.addObject("activite", activite);
             modelAndView.addObject("typesActivites", activiteService.getTypesActivite());
@@ -72,41 +67,40 @@ public class ActiviteCtrl {
         return modelAndView;
     }
 
-    @PostMapping(value = "add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView createActivite(Activite activite, ModelMap model){
+    @PostMapping(value = "add")
+    public ModelAndView createActivite(@ModelAttribute Activite activite, RedirectAttributes redirectAttributes){
         Activite act = activiteService.createActivite(activite);
         if (act == null) {
-            model.addAttribute("errorMessage", "Sauvegarde échouée!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Sauvegarde échouée!");
         } else {
-            model.addAttribute("successMessage", "L'activité est sauvegardée");
+            redirectAttributes.addFlashAttribute("successMessage", "L'activité est sauvegardée");
         }
-        return new ModelAndView("redirect:/admin", model);
+        return new ModelAndView("redirect:/admin");
     }
 
-    @PutMapping(value = "edit", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView updateActivite(Activite activite, ModelMap model){
+    @PutMapping(value = "edit")
+    public ModelAndView updateActivite(@ModelAttribute Activite activite, RedirectAttributes redirectAttributes){
         Activite updated = activiteService.updateActivite(activite);
         if (updated == null) {
-            return new ModelAndView("500");
+            return new ModelAndView("forward:/500");
         } else {
-            model.addAttribute("activite", updated);
-            model.addAttribute("successMessage", "L'activité est modifiée");
+            redirectAttributes.addFlashAttribute("successMessage", "L'activité est modifiée");
         }
-        return new ModelAndView("redirect:/activites/" + updated.getSlug(), model);
+        return new ModelAndView("redirect:/activites/" + updated.getSlug());
     }
 
     @PostMapping(value = "/participant")
-    public  ModelAndView addParticipant(@RequestBody String activiteSlug, ModelMap model){
+    public  ModelAndView addParticipant(@RequestBody String activiteSlug, RedirectAttributes redirectAttributes){
         User loggedInUser = logginUtil.getLoggedInUser();
         if (loggedInUser != null){
             String slug = activiteSlug.substring(activiteSlug.indexOf("=") + 1);
             boolean participantAdded = activiteService.addParticipant(slug, loggedInUser.getId());
             if (participantAdded) {
-                model.addAttribute("successMessage", "Participation enregistrée");
+                redirectAttributes.addFlashAttribute("successMessage", "Participation enregistrée");
             } else {
-                model.addAttribute("errorMessage", "Echec d'enregistrement");
+                redirectAttributes.addFlashAttribute("errorMessage", "Echec d'enregistrement");
             }
         }
-        return new ModelAndView("redirect:/activites", model);
+        return new ModelAndView("redirect:/activites");
     }
 }

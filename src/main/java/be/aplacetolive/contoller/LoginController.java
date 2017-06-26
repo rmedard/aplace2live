@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Created by medard on 18.06.17.
@@ -36,17 +35,14 @@ public class LoginController {
         if (loggedInUser == null){
             modelAndView.setViewName("login");
         } else {
-            modelAndView.addObject("loggedInMsg", "Vous êtes déjà connecté!");
-            modelAndView.addObject("user", loggedInUser);
-            modelAndView.setViewName("redirect:currentprofile");
+            modelAndView.setViewName("redirect:/currentprofile");
         }
         return modelAndView;
     }
 
     @PostMapping(value = "register")
-    public ModelAndView createUser(@ModelAttribute("user") User user, BindingResult bindingResult){
+    public ModelAndView createUser(@ModelAttribute User user, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         userValidator.validate(user, bindingResult);
-        ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByEmail(user.getEmail());
         if (userExists != null){
             bindingResult.rejectValue("email", "error.user", "Votre email est déjà enregistré");
@@ -54,11 +50,9 @@ public class LoginController {
 
         if (!bindingResult.hasErrors()){
             userService.createUser(user);
-            modelAndView.addObject("successMessage", "Le participant est enregistré");
-            modelAndView.addObject("user", new User());
+            redirectAttributes.addFlashAttribute("successMessage", "Le participant est enregistré");
         }
-        modelAndView.setViewName("register");
-        return modelAndView;
+        return new ModelAndView("redirect:/register");
     }
 
     @GetMapping("/register")
@@ -76,9 +70,7 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         User loggedInUser = logginUtil.getLoggedInUser();
         if (loggedInUser != null){
-            modelAndView.addObject("user", loggedInUser);
-            modelAndView.addObject("typesParticipants", userService.getTypesParticipant());
-            modelAndView.setViewName("users/profile");
+            modelAndView.setViewName("redirect:/participants?username=" + loggedInUser.getSlug());
         } else {
             modelAndView.setViewName("login");
         }

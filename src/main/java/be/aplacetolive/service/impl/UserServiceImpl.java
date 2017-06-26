@@ -54,7 +54,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        return userRepository.save(user);
+        User updatedUser = userRepository.findOne(user.getId());
+        if (updatedUser == null){
+            return null;
+        } else {
+            updatedUser.setActive(user.isActive());
+            updatedUser.setNom(user.getNom());
+            updatedUser.setPrenom(user.getPrenom());
+            updatedUser.setType(user.getType());
+            updatedUser.setEmail(user.getEmail());
+            return userRepository.save(updatedUser);
+        }
     }
 
     @Override
@@ -75,7 +85,7 @@ public class UserServiceImpl implements UserService {
                 .concat(" " + user.getPrenom()), this, SlugUtil.PARTICIPANT));
         user.setActive(true);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Role role = roleRepository.findByRole("USER");
+        Role role = roleRepository.findByRole("ROLE_USER");
         user.setRoles(new HashSet<>(Arrays.asList(role)));
         User newUser = userRepository.save(user);
         return newUser == null ? false : true;

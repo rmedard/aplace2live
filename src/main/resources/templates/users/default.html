@@ -30,7 +30,7 @@
                 <td th:text="${user.type}"></td>
                 <td>
                     <!--<button type="button" class="btn btn-primary btn-sm" th:action="@{/updateUser(username=${user.slug})}" th:text="Modifier"></button>-->
-                    <a th:href="@{/updateuser(username=${user.slug})}" class="btn btn-primary btn-sm" th:text="Modifier"></a>
+                    <a th:href="@{/participants(username=${user.slug})}" class="btn btn-primary btn-sm" th:text="Détails"></a>
                 </td>
             </tr>
             </tbody>

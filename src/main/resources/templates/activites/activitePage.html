@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Page Activite </title>
+    <title>Page Activité </title>
     <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
@@ -12,6 +13,16 @@
     <!--/*@thymesVar id="activite" type="be.aplacetolive.entity.Activite"*/-->
     <div class="row">
         <div class="col-12">
+            <div>
+                <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+                <div class="alert alert-success" role="alert" th:if="${successMessage}">
+                    <strong>Parfait! </strong><span th:utext="${successMessage}"></span>
+                </div>
+                <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+                <div class="alert alert-error" role="alert" th:if="${errorMessage}">
+                    <strong>Parfait! </strong><span th:utext="${errorMessage}"></span>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">
                     <strong>Activité: </strong><span th:text="${activite.nom}"></span>
@@ -35,8 +46,9 @@
                         <dd class="col-8" th:text="${activite.type}"></dd>
                     </dl>
                 </div>
-                <div class="card-footer">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editActiviteModal">Modifier</button>
+                <div class="card-footer" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#editActiviteModal">Modifier</button>
                     <!-- Modal -->
                     <div class="modal fade" id="editActiviteModal" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -101,12 +113,11 @@
             </div>
         </div>
     </div>
-    <hr />
     <div class="row">
         <div class="col-12">
-            <h1 class="text-center">Les participants</h1>
+            <h1 class="text-center display-4">Les participants</h1>
 
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover table-sm">
                 <thead>
                 <tr>
                     <th>#</th>
