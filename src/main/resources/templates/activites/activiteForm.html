@@ -1,5 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-             xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="/fragments/header :: header-css"/>
 </head>
@@ -9,7 +8,7 @@
 <div class="container">
 
     <div>
-        <h1>Les activités</h1>
+        <h1>Créer une nouvelle activité</h1>
 
         <!--/*@thymesVar id="activite" type="be.aplacetolive.entity.Activite"*/-->
         <form th:action="@{/activites/add}" method="post" th:object="${activite}" role="form">
