@@ -8,7 +8,7 @@
     <artifactId>aplacetolive</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>APlace2Live</name>
     <description>Application de gestion des participants aux activités de APlace2Live</description>
     <parent>
