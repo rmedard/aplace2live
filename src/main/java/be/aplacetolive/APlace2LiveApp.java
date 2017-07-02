@@ -17,6 +17,6 @@ public class APlace2LiveApp extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(APlace2LiveApp.class);
+        return builder.sources(APlace2LiveApp.class).web(false);
     }
 }
