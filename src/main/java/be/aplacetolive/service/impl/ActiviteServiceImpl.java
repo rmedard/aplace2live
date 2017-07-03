@@ -6,6 +6,8 @@ import be.aplacetolive.entity.types.TypeActivite;
 import be.aplacetolive.repository.ActiviteRepository;
 import be.aplacetolive.repository.UserRepository;
 import be.aplacetolive.service.ActiviteService;
+import be.aplacetolive.service.EmailService;
+import be.aplacetolive.service.UserService;
 import be.aplacetolive.utils.SlugUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,12 @@ public class ActiviteServiceImpl implements ActiviteService {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<Activite> getAllActivites() {
@@ -54,6 +62,14 @@ public class ActiviteServiceImpl implements ActiviteService {
     public Activite createActivite(Activite activite) {
         activite.setSlug(SlugUtil.slugify(activite.getNom(), this, SlugUtil.ACTIVITE));
         Activite newActivite = activiteRepo.save(activite);
+        if (newActivite != null){
+            String[] emails = userService.getActiveUsersEmails();
+            if (emails != null || emails.length > 0) {
+                String emailBody = "Une nouvelle activité a été créée: <a href=\"www.aplace2live.tk/activites/" +
+                        newActivite.getSlug() + "\">" + newActivite.getNom() + "</a>";
+                emailService.sendSimpleMessage(emails, emailBody, "Une nouvelle activité créée");
+            }
+        }
         return newActivite;
     }
 

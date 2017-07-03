@@ -9,14 +9,15 @@
 <div class="container">
     <h1 class="display-3 text-center">Panneau de gestion</h1>
     <div class="row">
-
-        <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
-        <div class="alert alert-success" role="alert" th:if="${successMessage}">
-            <strong>Parfait! </strong><span th:utext="${successMessage}"></span>
-        </div>
-        <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-        <div class="alert alert-error" role="alert" th:if="${errorMessage}">
-            <strong>Parfait! </strong><span th:utext="${errorMessage}"></span>
+        <div class="col-12">
+            <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+            <div class="alert alert-success" role="alert" th:if="${successMessage}">
+                <strong>Parfait! </strong><span th:utext="${successMessage}"></span>
+            </div>
+            <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
+            <div class="alert alert-error" role="alert" th:if="${errorMessage}">
+                <strong>Parfait! </strong><span th:utext="${errorMessage}"></span>
+            </div>
         </div>
 
         <div class="col-10"><h3>Les activités</h3></div>

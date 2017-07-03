@@ -1,5 +1,6 @@
 package be.aplacetolive.repository;
 
+import be.aplacetolive.entity.Role;
 import be.aplacetolive.entity.User;
 import be.aplacetolive.entity.types.TypeParticipant;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     User findBySlugAndType(String slug, TypeParticipant type);
     List<User> findUsersByType(TypeParticipant type);
+    List<User> findUsersByRolesIs(Role role);
 }

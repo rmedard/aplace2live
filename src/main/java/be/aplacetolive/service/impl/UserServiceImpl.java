@@ -99,4 +99,17 @@ public class UserServiceImpl implements UserService {
         }
         return types;
     }
+
+    @Override
+    public String[] getActiveUsersEmails() {
+        List<String> usersEmails = null;
+        List<User> users = userRepository.findUsersByRolesIs(roleRepository.findByRole("ROLE_USER"));
+        if (users != null) {
+            usersEmails = new ArrayList<>();
+            for (User user: users){
+                usersEmails.add(user.getEmail());
+            }
+        }
+        return usersEmails == null ? null : usersEmails.stream().toArray(String[]::new);
+    }
 }

@@ -18,4 +18,5 @@ public interface UserService {
     List<User> getParticipantsByType(TypeParticipant type);
     boolean createUser(User user);
     List<String> getTypesParticipant();
+    String[] getActiveUsersEmails();
 }
