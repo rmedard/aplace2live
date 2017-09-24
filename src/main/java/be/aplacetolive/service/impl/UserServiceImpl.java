@@ -7,15 +7,11 @@ import be.aplacetolive.repository.RoleRepository;
 import be.aplacetolive.repository.UserRepository;
 import be.aplacetolive.service.UserService;
 import be.aplacetolive.utils.SlugUtil;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Medard on 12/05/2017.
@@ -69,14 +65,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllParticipants() {
-        List<User> participants = userRepository.findAll();
-        return participants;
+        return userRepository.findAll();
     }
 
     @Override
     public List<User> getParticipantsByType(TypeParticipant type) {
-        List<User> participants = userRepository.findUsersByType(type);
-        return participants;
+        return userRepository.findUsersByType(type);
     }
 
     @Override
@@ -86,9 +80,9 @@ public class UserServiceImpl implements UserService {
         user.setActive(true);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Role role = roleRepository.findByRole("ROLE_USER");
-        user.setRoles(new HashSet<>(Arrays.asList(role)));
+        user.setRoles(new HashSet<>(Collections.singletonList(role)));
         User newUser = userRepository.save(user);
-        return newUser == null ? false : true;
+        return newUser != null;
     }
 
     @Override
@@ -110,6 +104,6 @@ public class UserServiceImpl implements UserService {
                 usersEmails.add(user.getEmail());
             }
         }
-        return usersEmails == null ? null : usersEmails.stream().toArray(String[]::new);
+        return usersEmails == null ? null : usersEmails.toArray(new String[0]);
     }
 }

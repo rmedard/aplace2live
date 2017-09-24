@@ -104,8 +104,8 @@ public class ActiviteCtrl {
         return new ModelAndView("redirect:/activites");
     }
 
-    @DeleteMapping
-    public ModelAndView deleteActivite(@RequestBody String activiteSlug, RedirectAttributes redirectAttributes){
+    @PostMapping(value = "/delete")
+    public ModelAndView deleteActivite(@RequestBody(required = false) String activiteSlug, RedirectAttributes redirectAttributes){
         String slug = activiteSlug.substring(activiteSlug.indexOf("=") + 1);
         Activite activite = activiteService.getActiviteBySlug(slug);
         if (activite == null) {

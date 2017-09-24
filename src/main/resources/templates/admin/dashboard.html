@@ -15,7 +15,7 @@
                 <strong>Parfait! </strong><span th:utext="${successMessage}"></span>
             </div>
             <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-            <div class="alert alert-error" role="alert" th:if="${errorMessage}">
+            <div class="alert alert-danger" role="alert" th:if="${errorMessage}">
                 <strong>Oops! </strong><span th:utext="${errorMessage}"></span>
             </div>
         </div>
@@ -49,7 +49,7 @@
                 <td>
                     <a th:href="@{'/activites/' + ${activite.slug}}" class="btn btn-warning btn-sm">Détails</a>
                     <a class="btn btn-danger btn-sm"
-                       th:data-toggle="modal" data-target="#confirmSuppressionId"
+                       data-toggle="modal" data-target="#confirmSuppressionId"
                        th:data-activiteslug="${activite.slug}" th:data-activitetitle="${activite.nom}">Supprimer</a>
                 </td>
             </tr>
@@ -60,7 +60,7 @@
         <div class="modal fade" id="confirmSuppressionId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form th:action="@{/activites}" th:method="delete" role="form">
+                    <form th:action="@{/activites/delete}" method="post" role="form">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

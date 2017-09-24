@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Created by medard on 18.06.17.
  */
 @Controller
+@RequestMapping("/")
 public class LoginController {
 
     @Autowired
@@ -27,6 +29,11 @@ public class LoginController {
 
     @Autowired
     private LogginUtil logginUtil;
+
+    @GetMapping
+    public String home(){
+        return "index";
+    }
 
     @GetMapping(value = "/login")
     public ModelAndView login(){
