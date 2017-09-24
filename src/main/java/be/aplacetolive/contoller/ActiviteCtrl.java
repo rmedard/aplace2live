@@ -103,4 +103,17 @@ public class ActiviteCtrl {
         }
         return new ModelAndView("redirect:/activites");
     }
+
+    @DeleteMapping
+    public ModelAndView deleteActivite(@RequestBody String activiteSlug, RedirectAttributes redirectAttributes){
+        String slug = activiteSlug.substring(activiteSlug.indexOf("=") + 1);
+        Activite activite = activiteService.getActiviteBySlug(slug);
+        if (activite == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Suppression échouée");
+        } else {
+            activiteService.deleteActivite(slug);
+            redirectAttributes.addFlashAttribute("successMessage", "Activité supprimée");
+        }
+        return new ModelAndView("redirect:/admin");
+    }
 }

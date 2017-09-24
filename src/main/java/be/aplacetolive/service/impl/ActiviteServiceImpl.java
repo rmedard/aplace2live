@@ -94,7 +94,8 @@ public class ActiviteServiceImpl implements ActiviteService {
     }
 
     @Override
-    public void deleteActivite(long id) {
+    public void deleteActivite(String slug) {
+        activiteRepo.deleteActiviteBySlug(slug);
     }
 
     @Override

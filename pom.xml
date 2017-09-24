@@ -8,7 +8,7 @@
     <artifactId>aplacetolive</artifactId>
     <version>1.0</version>
 
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>APlace2Live</name>
     <description>Application de gestion des participants aux activités de APlace2Live</description>
     <parent>
@@ -123,11 +123,11 @@
             <version>1.5.4.RELEASE</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
 
     </dependencies>
     <build>

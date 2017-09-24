@@ -13,4 +13,5 @@ public interface ActiviteRepository extends CrudRepository<Activite, Long> {
     List<Activite> findActiviteByType(TypeActivite type);
     Activite findActiviteBySlug(String slug);
     Activite findActiviteById(Long id);
+    void deleteActiviteBySlug(String slug);
 }
